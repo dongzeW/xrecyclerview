@@ -55,7 +55,16 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/listview_header_text"
             android:src="@drawable/ic_pulltorefresh_arrow" />
-
+        <ImageView
+            android:id="@+id/img_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/loading_refresh"
+            android:layout_toLeftOf="@id/listview_header_text"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp"
+            android:visibility="invisible"/>
         <com.jcodecraeer.xrecyclerview.SimpleViewSwitcher
             android:id="@+id/listview_header_progressbar"
             android:layout_width="30dip"
@@ -66,5 +75,4 @@
             android:layout_marginRight="10dp"
             android:visibility="invisible" />
     </RelativeLayout>
-
 </LinearLayout>
