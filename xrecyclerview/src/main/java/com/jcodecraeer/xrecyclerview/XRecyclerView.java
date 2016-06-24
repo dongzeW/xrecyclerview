@@ -75,6 +75,10 @@ public class XRecyclerView extends RecyclerView {
     mHeaderViews.add(view);
   }
 
+  public void removeHeaderView(View view){
+    mHeaderViews.remove(view);
+  }
+
   public void addFootView(final View view) {
     mFootViews.clear();
     mFootViews.add(view);
