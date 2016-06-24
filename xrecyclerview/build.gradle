@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.0"
+version = "1.0.6"
 group = "com.wwd"
 
-def siteUrl = 'https://github.com/jianghejie/XRecyclerView'
-def gitUrl = 'https://github.com/jianghejie/XRecyclerView.git'
+def siteUrl = 'https://github.com/dongzeW/xrecyclerview'
+def gitUrl = 'https://github.com/dongzeW/xrecyclerview.git'
 
 android {
   compileSdkVersion 23

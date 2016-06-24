@@ -31,7 +31,6 @@ public class EmptyViewActivity extends AppCompatActivity {
 
         mEmptyView = findViewById(R.id.text_empty);
 
-        mRecyclerView.setEmptyView(mEmptyView);
 
         //没有数据，触发emptyView
         listData = new  ArrayList<String>();

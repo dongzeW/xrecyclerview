@@ -6,14 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
 import java.util.ArrayList;
 
 public class LinearActivity extends AppCompatActivity {
@@ -95,7 +92,7 @@ public class LinearActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(listData);
 
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setRefreshing(true);
+        //mRecyclerView.setRefreshing(true);
     }
 
     @Override
