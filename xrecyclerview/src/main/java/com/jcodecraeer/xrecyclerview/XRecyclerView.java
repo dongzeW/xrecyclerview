@@ -185,7 +185,7 @@ public class XRecyclerView extends RecyclerView {
     mWrapAdapter = new WrapAdapter(adapter);
     super.setAdapter(mWrapAdapter);
     adapter.registerAdapterDataObserver(mDataObserver);
-    mDataObserver.onChanged();
+    //mDataObserver.onChanged();
   }
 
   @Override public void onScrollStateChanged(int state) {
@@ -391,6 +391,9 @@ public class XRecyclerView extends RecyclerView {
 
     @Override public int getItemViewType(int position) {
       int adjPosition = position - (getHeadersCount() + 1);
+      if (getItemCount() == 0) {
+        return 0;
+      }
       if (isReservedItemViewType(adapter.getItemViewType(adjPosition))) {
         throw new IllegalStateException(
             "XRecyclerView require itemViewType in adapter should be less than 10000 ");
