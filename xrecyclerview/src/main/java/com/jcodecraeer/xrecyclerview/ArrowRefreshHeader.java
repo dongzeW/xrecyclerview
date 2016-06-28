@@ -111,12 +111,12 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
     if (state == STATE_REFRESHING) {  // 显示进度
       mArrowImageView.clearAnimation();
-      mArrowImageView.setVisibility(View.VISIBLE);
-      //            mProgressBar.setVisibility(View.VISIBLE);
+      mArrowImageView.setVisibility(View.GONE);
+                  //mProgressBar.setVisibility(View.VISIBLE);
       img_loading.setVisibility(View.VISIBLE);
       animationDrawable.start();
     } else if (state == STATE_DONE) {
-      mArrowImageView.setVisibility(View.INVISIBLE);
+      mArrowImageView.setVisibility(View.GONE);
       //            mProgressBar.setVisibility(View.INVISIBLE);
       img_loading.clearAnimation();
       img_loading.setVisibility(View.VISIBLE);
