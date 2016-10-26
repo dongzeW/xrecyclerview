@@ -55,7 +55,7 @@ public class LinearActivity extends AppCompatActivity {
                         mRecyclerView.refreshComplete();
                     }
 
-                }, 1000);            //refresh data here
+                }, 10000);            //refresh data here
             }
 
             @Override

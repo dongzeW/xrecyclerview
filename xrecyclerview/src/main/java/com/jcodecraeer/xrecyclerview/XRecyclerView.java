@@ -1,15 +1,19 @@
 package com.jcodecraeer.xrecyclerview;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +52,10 @@ public class XRecyclerView extends RecyclerView {
 
   public XRecyclerView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
-    init();
+    init(context);
   }
 
-  private void init() {
+  private void init(Context context) {
     if (pullRefreshEnabled) {
       ArrowRefreshHeader refreshHeader = new ArrowRefreshHeader(getContext());
       mHeaderViews.add(0, refreshHeader);
@@ -62,6 +66,40 @@ public class XRecyclerView extends RecyclerView {
     footView.setProgressStyle(mLoadingMoreProgressStyle);
     addFootView(footView);
     mFootViews.get(0).setVisibility(GONE);
+    //if (Build.VERSION.SDK_INT >= 23) {
+    //  if (Settings.canDrawOverlays(context)) {
+    //    showFLoatView(context);
+    //  } else {
+    //    //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+    //    //context.startActivity(intent);
+    //    //Intent intent = new Intent();
+    //    //intent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+    //    //Uri uri = Uri.fromParts("package",context.getPackageName(), null);
+    //    //intent.setData(uri);
+    //    //context.startActivity(intent);
+    //  }
+    //} else {
+    //  showFLoatView(context);
+    //}
+  }
+
+  private void showFLoatView(Context context) {
+    Activity mActivity = (Activity) context;
+    View statusBarView = new View(mActivity);
+    statusBarView.setBackgroundColor(Color.TRANSPARENT);
+    int statusBarHeight = (int) Math.ceil(25 * getResources().getDisplayMetrics().density);
+    WindowManager.LayoutParams params =
+        new WindowManager.LayoutParams(WindowManager.LayoutParams.FILL_PARENT, statusBarHeight,
+            WindowManager.LayoutParams.TYPE_PHONE, 40, PixelFormat.TRANSLUCENT);
+    params.gravity = Gravity.TOP;
+    WindowManager wm = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+    statusBarView.setOnTouchListener(new OnTouchListener() {
+      @Override public boolean onTouch(View v, MotionEvent event) {
+        smoothScrollToPosition(0);
+        return false;
+      }
+    });
+    wm.addView(statusBarView, params);
   }
 
   public void addHeaderView(View view) {
