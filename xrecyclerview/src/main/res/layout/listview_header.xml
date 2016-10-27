@@ -3,19 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="bottom"
+    android:background="#f7f7f7"
     >
 
   <RelativeLayout
       android:id="@+id/listview_header_content"
       android:layout_width="fill_parent"
-      android:layout_height="80dp"
-      android:background="#f7f7f7"
+      android:layout_height="76dp"
       android:paddingTop="10dip"
       >
     <ImageView
         android:id="@+id/img_loading"
         android:layout_width="200dp"
-        android:layout_height="match_parent"
+        android:layout_height="76dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/loading_refresh"
         android:layout_centerHorizontal="true"
         />
@@ -28,11 +29,11 @@
         android:layout_marginRight="10dp"
         android:visibility="invisible"
         />
+
     <ImageView
         android:id="@+id/listview_header_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/libai"
         />

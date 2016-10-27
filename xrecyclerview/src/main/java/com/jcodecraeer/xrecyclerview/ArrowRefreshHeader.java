@@ -16,6 +16,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView;
 import java.util.Date;
 
@@ -33,7 +34,9 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
   private final int ROTATE_ANIM_DURATION = 180;
   private int width;
   public int mMeasuredHeight;
-  private int maxHeight = 80;
+  private int maxHeight;
+  private int rawX;
+  private boolean isRefresh;
 
   public ArrowRefreshHeader(Context context) {
     super(context);
@@ -50,10 +53,9 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
   }
 
   private void initView(Context context) {
-
     mContext = context;
     width = getScreenWidth(mContext);
-    maxHeight = dip2px(mContext, 80);
+    maxHeight = dip2px(mContext, 74);
     // 初始情况，设置下拉刷新view高度为0
     mContainer =
         (LinearLayout) LayoutInflater.from(context).inflate(R.layout.listview_header, null);
@@ -64,7 +66,6 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
     addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT, 0));
     setGravity(Gravity.BOTTOM);
-
     img_loading = (ImageView) findViewById(R.id.img_loading);
     animationDrawable = (AnimationDrawable) img_loading.getDrawable();
     mArrowImageView = (ImageView) findViewById(R.id.listview_header_arrow);
@@ -104,34 +105,20 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
   }
 
   public void setState(int state) {
-    if (state == mState) return;
-
-    if (state == STATE_REFRESHING) {  // 显示进度
-      mArrowImageView.clearAnimation();
-      //mProgressBar.setVisibility(View.VISIBLE);
+    if (!animationDrawable.isRunning()) {
       animationDrawable.start();
-    } else if (state == STATE_DONE) {
-      //            mProgressBar.setVisibility(View.INVISIBLE);
-      img_loading.clearAnimation();
-    } else {  // 显示箭头图片
-      //            mProgressBar.setVisibility(View.INVISIBLE);
-      img_loading.clearAnimation();
     }
-
+    if (state == mState) return;
     switch (state) {
       case STATE_NORMAL:
-        if (mState == STATE_RELEASE_TO_REFRESH) {
-          //                    mArrowImageView.startAnimation(mRotateDownAnim);
+        if (mState == STATE_NORMAL) {
         }
-        if (mState == STATE_REFRESHING) {
-          mArrowImageView.clearAnimation();
+        if (mState == STATE_DONE) {
+          animationDrawable.stop();
         }
         break;
       case STATE_RELEASE_TO_REFRESH:
         if (mState != STATE_RELEASE_TO_REFRESH) {
-          mArrowImageView.clearAnimation();
-          //不翻转图片
-          //                    mArrowImageView.startAnimation(mRotateUpAnim);
         }
         break;
       case STATE_REFRESHING:
@@ -140,7 +127,6 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         break;
       default:
     }
-
     mState = state;
   }
 
@@ -162,6 +148,20 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
     LayoutParams lp = (LayoutParams) mContainer.getLayoutParams();
     lp.height = height;
     mContainer.setLayoutParams(lp);
+    if (height <= maxHeight) {
+      rawX = width / 2 * height / maxHeight;
+      RelativeLayout.LayoutParams params =
+          (RelativeLayout.LayoutParams) mArrowImageView.getLayoutParams();
+      if (!isRefresh) {
+        params.leftMargin = width - rawX - mArrowImageView.getWidth() / 2;
+      } else {
+        params.leftMargin = rawX - mArrowImageView.getWidth() / 2;
+        if (height == 0) {
+          isRefresh = false;
+        }
+      }
+      mArrowImageView.setLayoutParams(params);
+    }
   }
 
   public int getScreenWidth(Context context) {
@@ -206,6 +206,7 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
     if (getVisiableHeight() > mMeasuredHeight && mState < STATE_REFRESHING) {
       setState(STATE_REFRESHING);
       isOnRefresh = true;
+      isRefresh = true;
     }
     // refreshing and header isn't shown fully. do nothing.
     if (mState == STATE_REFRESHING && height <= mMeasuredHeight) {
